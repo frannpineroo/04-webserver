@@ -1,20 +1,19 @@
-const http = require('http');
+import express from 'express'
 
-http.createServer( (req, res) => {
+const app = express()
+const port = 8080
 
+// servir contenido estático
+app.use( express.static('public') );
 
-    // res.writeHead(200,  { 'Content-Type': 'application/json' });
-    res.setHeader('Content-Disposition', 'attachment; filename=lista.csv');
-    res.writeHead(200,  { 'Content-Type': 'application/csv' });
+app.get('/hola-mundo', (req, res) => {
+  res.send('Hola mundo desde su respectiva ruta')
+})
 
-    res.write( 'id, nombre\n' );
-    res.write( '1, Junior\n' );
-    res.write( '2, Mike\n' );
-    res.write( '3, Juan\n' );
-    res.write( '4, Pedro\n' );
-    res.end();
+app.get('/error', (req, res) => {
+  res.send('404 | Página no encontrada')
+})
 
-} )
-.listen(8080);
-
-console.log('Escuchando en el puerto ', 8080);
+app.listen(8080, () => {
+  console.log(`Server is running on http://localhost:${port}`)
+})
